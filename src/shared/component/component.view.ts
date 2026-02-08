@@ -5,7 +5,7 @@ export type CreateComponentOptions = {
     html: string;
 }
 
-export abstract class ComponentView<Tag extends keyof HTMLElementTagNameMap> implements IComponentView {
+export abstract class ComponentView<Tag extends keyof HTMLElementTagNameMap> implements IComponentView<Tag> {
     private _element: HTMLElementTagNameMap[Tag];
     private _inDocument: boolean = false;
 
