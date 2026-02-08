@@ -8,4 +8,5 @@ export interface IValue<ValueType> {
     set(value: ValueType): void;
     get(): ValueType;
     dispose(): void;
+    invoke(): void;
 }

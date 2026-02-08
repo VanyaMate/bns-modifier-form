@@ -6,11 +6,13 @@ type ValueLinkSubscribeMeta = {
 }
 
 export class Value<ValueType> implements IValue<ValueType> {
+    private _previousValue: ValueType;
     private _value: ValueType;
     private _callbacks: Array<ValueUpdateHandler<ValueType>> = [];
     private _links: Array<ValueLinkSubscribeMeta> = [];
     
     constructor(value: ValueType) {
+        this._previousValue = value;
         this._value = value;
     }
 
@@ -19,9 +21,9 @@ export class Value<ValueType> implements IValue<ValueType> {
     }
 
     public set(value: ValueType): void {
-        const previousValue = this._value;
+        this._previousValue = this._value;
         this._value = value;
-        this._onUpdateHandler(previousValue, value);
+        this._onUpdateHandler(this._previousValue, this._value);
     }
 
     public dispose(): void {
@@ -40,6 +42,10 @@ export class Value<ValueType> implements IValue<ValueType> {
     public linkTo<ElementType extends HTMLElement, EventName extends keyof HTMLElementEventMap>(element: ElementType, eventName: EventName, handler: ValueLinkToEvent): void {
         element.addEventListener(eventName, handler);
         this._links.push({ element, eventName, handler });
+    }
+
+    public invoke(): void {
+        this._onUpdateHandler(this._previousValue, this._value);
     }
 
     private _onUpdateHandler(prevValue: ValueType, currentValue: ValueType) {

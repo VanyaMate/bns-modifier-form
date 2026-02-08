@@ -6,7 +6,7 @@ export type CreateComponentOptions = {
 }
 
 export abstract class ComponentView<Tag extends keyof HTMLElementTagNameMap> implements IComponentView {
-    private _element: Element;
+    private _element: HTMLElementTagNameMap[Tag];
     private _inDocument: boolean = false;
 
     constructor(tagName: Tag, data: CreateComponentOptions) {
@@ -28,7 +28,7 @@ export abstract class ComponentView<Tag extends keyof HTMLElementTagNameMap> imp
         return this._inDocument;
     }
 
-    public getElement(): Element {
+    public getElement(): HTMLElementTagNameMap[Tag] {
         return this._element;
     }
 

@@ -18,7 +18,7 @@ export abstract class ComponentPresenter implements IComponentPresenter {
 
     protected abstract _init(): void;
 
-    private _dispose(): void {
+    protected _dispose(): void {
         this._model.dispose();
     }
 }
